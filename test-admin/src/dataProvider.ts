@@ -16,6 +16,7 @@ export default {
       filter: JSON.stringify(params.filter),
     };
     const url = `${apiUrl}/${resource}?${stringify(query)}`;
+    console.log("url: ", url);
     const { data } = await axios.get(url);
     if (!Array.isArray(data)) {
       throw new Error("Data items is not an array");
@@ -27,12 +28,10 @@ export default {
   },
 
   getOne: async (resource, params) => {
-    const category = JSON.parse(localStorage.getItem("show") as string);
-    console.log("category: ", category);
     const url = `${apiUrl}/${resource}/one/${params.id}`;
     console.log("url: ", url);
     const { data } = await axios.get(url);
-    console.log("data: ", data);
+    // console.log("data: ", data);
     return { data };
   },
 
@@ -72,6 +71,10 @@ export default {
       if (params.data.hasOwnProperty(key)) {
         if (key === "image" && params.data[key].rawFile) {
           formData.append(key, params.data[key].rawFile);
+        } else if (key === "volumes") {
+          formData.append(key, JSON.stringify(params.data[key]));
+        } else if (key === "characteristics") {
+          formData.append(key, JSON.stringify(params.data[key]));
         } else {
           formData.append(key, params.data[key]);
         }

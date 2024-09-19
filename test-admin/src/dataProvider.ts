@@ -75,6 +75,8 @@ export default {
           formData.append(key, JSON.stringify(params.data[key]));
         } else if (key === "characteristics") {
           formData.append(key, JSON.stringify(params.data[key]));
+        } else if (key === "filters") {
+          formData.append(key, JSON.stringify(params.data[key])); // Додаємо filters
         } else {
           formData.append(key, params.data[key]);
         }

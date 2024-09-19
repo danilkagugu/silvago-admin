@@ -10,6 +10,7 @@ import {
   SelectInput,
   SimpleFormIterator,
   ArrayInput,
+  BooleanInput,
 } from "react-admin";
 import { RichTextInput } from "ra-input-rich-text";
 import {
@@ -30,6 +31,12 @@ interface Brands {
   country: string;
 }
 
+const sunscreenTypeChoices = [
+  { id: "Хімічні фільтри", name: "Хімічні фільтри" },
+  { id: "Фізичні фільтри", name: "Фізичні фільтри" },
+  { id: "Мікс фільтрів", name: "Мікс фільтрів" },
+];
+
 const CreateProduct = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   console.log("categories: ", categories);
@@ -41,8 +48,6 @@ const CreateProduct = () => {
     }[]
   >([]);
   const [brands, setBrands] = useState<Brands[]>([]);
-  // const [selectedBrand, setSelectedBrand] = useState<string>("");
-  // const [selectedCountry, setSelectedCountry] = useState<string>("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -68,16 +73,6 @@ const CreateProduct = () => {
     }
   }, [selectedCategory, categories]);
 
-  // useEffect(() => {
-  //   if (selectedBrand) {
-  //     const brand = brands.find((b) => b._id === selectedBrand);
-  //     setSelectedCountry(brand?.country || "");
-  //   }
-  // }, [selectedBrand, brands]);
-  // const handleSubmit = (values) => {
-  //   console.log("Submitting volumes:", values.volumes);
-  //   // Переконайтеся, що об'єкти мають правильний формат
-  // };
   return (
     <Create>
       <SimpleForm>
@@ -161,6 +156,35 @@ const CreateProduct = () => {
             <TextInput source="age" validate={required()} label="Вік" />
           </SimpleFormIterator>
         </ArrayInput>
+        <SelectInput
+          source="filters.sunscreenType"
+          label="Тип сонцезахисних фільтрів"
+          choices={sunscreenTypeChoices}
+        />
+        <BooleanInput
+          source="filters.forSensitiveSkin"
+          label="Для чутливої шкіри"
+        />
+        <BooleanInput source="filters.acneTreatment" label="Боротьба з акне" />
+        <BooleanInput source="filters.antiAge" label="Anti-age" />
+        <BooleanInput source="filters.hydration" label="Зволоження" />
+        <BooleanInput source="filters.nourishment" label="Живлення" />
+        <BooleanInput
+          source="filters.pigmentationTreatment"
+          label="Освітлення пігментації"
+        />
+        <BooleanInput source="filters.seboRegulation" label="Себорегуляція" />
+        <BooleanInput
+          source="filters.couperoseTreatment"
+          label="Лікування куперозу"
+        />
+        <BooleanInput source="filters.regeneration" label="Відновлення" />
+        <BooleanInput source="filters.cleaning" label="Очищення" />
+        <BooleanInput source="filters.soothing" label="Заспокоєння" />
+        <BooleanInput
+          source="filters.uvProtection"
+          label="Захист від ультрафіолету"
+        />
 
         <ArrayInput source="volumes">
           <SimpleFormIterator>
@@ -173,6 +197,11 @@ const CreateProduct = () => {
             <NumberInput
               source="quantity"
               label="Кількість"
+              validate={required()}
+            />
+            <NumberInput
+              source="barcode"
+              label="Штрихкод"
               validate={required()}
             />
           </SimpleFormIterator>
